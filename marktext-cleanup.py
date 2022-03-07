@@ -24,13 +24,24 @@ with open(filename, "r") as fd:
         lines[i] = lines[i].replace(cpath, ".")
         start = lines[i].index(imgTagPrefix) + 4
         end = lines[i][start:].index(imgTagSubfix)
-        res.append(lines[i][start:end+4])
+        res.append(lines[i][start:end+start])
 
 with open(filename, "w+") as fd:
     fd.writelines(lines)
 
 
+
+print(res)
+
 dels = [f for f in os.listdir(assets) if os.path.join(assets, f) not in res]
-print("cleanup unuseful files:", dels)
+print("all files: ", res)
+print("will cleanup unuseful files: ",  dels)
+
+confirm = raw_input('Confirm[Y/N]?')
+
+if confirm !=  "Y":
+   os._exit(0)
+
 for name in dels:
+    print(os.path.join(assets, name))
     os.remove(os.path.join(assets, name))
